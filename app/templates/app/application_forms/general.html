@@ -1,0 +1,68 @@
+{% with app_type.form as form %}
+<h1>{{ form.as_text }}</h1>
+<div class="col-md-10 col-md-offset-1 app-form">
+    <div class="col-md-5 col-md-offset-7">
+        Президенту<br/>
+        Рівненської торгово-промислової палати<br/>
+        Ярощуку М. Я.
+    </div>
+    <div class="col-md-5 col-md-offset-7">
+        <h4><span class="label label-success">
+            від
+        </span></h4>
+    </div>
+    <div class="col-md-5 col-md-offset-7">
+        <p class="form-control-static">{{ client.get_title_name }}</p>
+    </div>
+
+    {% if form.contact_person.errors %}
+        <div class="form-group has-error">
+            <div class="col-md-10 col-md-offset-2"
+                 style="margin-bottom: -15px;">
+                <h4><span class="label label-danger">
+                {{ form.contact_person.errors.as_text }}
+                </span></h4>
+            </div>
+        </div>
+    {% endif %}
+    <div class="col-md-5 col-md-offset-7">
+        <label for="id_contact_person" class="control-label">
+            Контактна особа
+        </label>
+        <input type="text" class="form-control"
+               id="id_contact_person" placeholder="дані контактної особи"
+               name="contact_person" value="{{ form.contact_person.value }}">
+    </div>
+    <div class="col-md-5 col-md-offset-7">
+        <label for="id_contact_phone" class="control-label">
+            Телефон
+        </label>
+        <input type="text" class="form-control"
+               id="id_contact_phone" placeholder="контактний телефон"
+               name="contact_phone" value="{{ client.phone }}">
+    </div>
+    <div class="col-md-12 text-center">
+        <h1>Заява</h1>
+    </div>
+    <div class="col-md-12">
+        <h4><span class="label label-success">
+            Опишіть зміст Вашого звернення
+        </span></h4>
+        <textarea class="form-control resizable" id="text_text"
+                  name="text_text" rows="5"></textarea>
+    </div>
+    <div class="col-md-12 checkbox">
+        <div class="col-md-6 text-left">
+            <fieldset disabled>
+                <label>
+                    <input type="checkbox" checked="checked">
+                     Оплату за надані послуги гарантую
+                </label>
+            </fieldset>
+        </div>
+        <div class="col-md-6 text-right">
+            Дата звернення: {% now "SHORT_DATE_FORMAT" %}
+        </div>
+    </div>
+</div>
+{% endwith %}

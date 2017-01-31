@@ -1,0 +1,117 @@
+{% extends "app/layout.html" %}
+
+{% block headscripts %}
+{#    simple pre-load animation START#}
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js">
+    </script>
+    <script type="text/javascript"
+            src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js">
+    </script>
+
+    <script  type="text/javascript">
+    $(window).load(function() {
+		// Animate loader off screen
+		$(".se-pre-con").fadeOut("slow");
+	});
+    </script>
+{#    simple pre-load animation END#}
+{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+<nav class="navbar navbar-inverse quick-search-nav
+quick-search-div">
+    <div class="col-md-8 col-md-offset-2">
+        <input type="text" name="filter" id="filter"
+               class="form-control navbar-form quick-search"
+               placeholder="швидкий фільтр">
+    </div>
+</nav>
+
+<div class="se-pre-con" style=" height: 64px; background:
+        url(
+        {% static 'app/content/simple-pre-loader/' %}images/loader-64x/Preloader_8.gif) center no-repeat #fff;">
+</div>
+
+<div id="clients-content">
+{% include 'app/clients_content.html' %}
+</div>
+
+<div id="page_load_animation" class="se-pre-con" style=" height: 64px; background:
+        url(
+        {% static 'app/content/simple-pre-loader/' %}images/loader-64x/Preloader_8.gif) center no-repeat #fff;">
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'django_ajax/js/jquery.ajax.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'django_ajax/js/jquery.ajax-plugin.min.js' %}">
+    </script>
+
+    <script type="text/javascript">
+    var last_filter;
+    var delay = (function(){
+        var timer = 0;
+        return function(callback, ms){
+            clearTimeout (timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+
+    function filter_clients() {
+        filter = $("#filter").val();
+        if (filter != last_filter){
+            last_filter = filter;
+            ajaxPost('/filter_clients', {'filter': filter}, function(content){
+                //onSuccess
+{#                console.log('response');#}
+                elem = document.getElementById("clients-content");
+                elem.innerHTML = content;
+            })
+        }
+        $(".se-pre-con").fadeOut("slow");
+    }
+
+    $('#filter').on('input', function() {
+        $(".se-pre-con").css('display', 'block');
+        delay(filter_clients, 1500 );
+    });
+
+    var page_status = 'idle';
+    $(window).scroll(function() {
+        if($(window).scrollTop()+$(window).height() == $(document).height()) {
+            //this is the bottom
+            if (page_status == 'idle'){
+                page_status = 'loading';
+                $("#page_load_animation").css('display', 'block');
+                get_next_page();
+                setTimeout(function () {
+                    $("#page_load_animation").fadeOut("slow");
+                    page_status = 'idle';
+                }, 1500);
+            }
+        }
+    });
+
+    function get_next_page() {
+        clients_codes_arr = $( ".client_row" ).map(
+                   function( index, element) {
+                       return element.id;
+                   }).get();
+        clients_codes_arr = clients_codes_arr.toString();
+        filter = $("#filter").val();
+{#        console.log(clients_codes_arr)#}
+{#        console.log(filter)#}
+        ajaxPost('/clients_next_page',
+                {
+                    'exclude': clients_codes_arr,
+                    'filter': filter,
+                }, function (content){/*on success*/})
+    }
+    </script>
+{% endblock %}

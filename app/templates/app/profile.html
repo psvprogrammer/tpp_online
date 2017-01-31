@@ -1,0 +1,159 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <hr/>
+{% if employee_form.errors or user_form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ user_form.errors }}
+    </div>
+    <div class="alert alert-danger" role="alert">
+        {{ employee_form.errors }}
+    </div>
+{% endif %}
+    <form method="post" class="form-horizontal"
+          action="{% url 'profile' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="form-group">
+            <div class="col-md-3 text-center">
+                <img src="{{ employee.avatar.url }}" class="img-thumbnail"
+                     style="width:200px; height:200px;" id="id_avatar_img">
+                <label class="btn btn-primary btn-lg btn-block btn-file">
+                    Змінити аватар <input id="id_avatar" type="file"
+                                          style="display: none;"
+                                          name="avatar"
+                                          value="{{ employee.avatar.url }}">
+                </label>
+            </div>
+            <div class="col-md-8 col-md-offset-1">
+            {% if user_form.username.errors %}
+                <div class="form-group has-error">
+                    <div class="col-md-5 col-md-offset-2"
+                         style="margin-bottom: -15px;">
+                        <h4><span class="label label-danger">
+                        {{ user_form.username.errors.as_text }}
+                        </span></h4>
+                    </div>
+                </div>
+            {% endif %}
+                <div class="form-group">
+                    <label for="id_username" class="col-md-2
+                    control-label">Логін</label>
+                    <div class="col-md-5
+                         {% if user_form.username.errors %} has-error
+                         {% endif %}
+                    ">
+                        <input type="text" class="form-control"
+                               id="id_username" placeholder="ваше ім'я"
+                        name="username" value="{{ cur_user.username }}">
+                    </div>
+                    <div class="col-md-5">
+                        <h3><span class="label
+                    {% if perms.app.manager_role %}
+                        label-warning
+                    {% elif perms.app.secretary_role %}
+                        label-info
+                    {% elif perms.app.department_head_role %}
+                        label-success
+                    {% elif perms.app.employee_role or perms.app.moderator_role %}
+                        label-primary
+                    {% else %}
+                        label-default
+                    {% endif %}
+                        ">Рівень доступу: {{ role }}</span></h3>
+                    </div>
+                </div>
+            {% if user_form.email.errors %}
+                <div class="form-group has-error">
+                    <div class="col-md-10 col-md-offset-2"
+                         style="margin-bottom: -15px;">
+                        <h4><span class="label label-danger">
+                        {{ user_form.email.errors.as_text }}
+                        </span></h4>
+                    </div>
+                </div>
+            {% endif %}
+                <div class="form-group">
+                    <label for="id_email" class="col-md-2
+                    control-label">Email</label>
+                    <div class="col-md-5">
+{#                      <p class="form-control-static">{{ user.email }}</p>#}
+                        <input type="text" class="form-control"
+                               id="id_email"
+                               placeholder="ваша електронна адреса"
+                               name="email" value="{{ cur_user.email }}">
+                    </div>
+                </div>
+                <h4><span class="label
+                label-default">Дані про працівника</span></h4>
+            {% if user_form.first_name.errors %}
+                <div class="form-group has-error">
+                    <div class="col-md-10 col-md-offset-2"
+                         style="margin-bottom: -15px;">
+                        <h4><span class="label label-danger">
+                        {{ user_form.first_name.errors.as_text }}
+                        </span></h4>
+                    </div>
+                </div>
+            {% endif %}
+                <div class="form-group">
+                    <label for="id_first_name" class="col-md-2
+                    control-label">Ім'я</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control"
+                               id="id_first_name" placeholder="ваше ім'я"
+                        name="first_name" value="{{ cur_user.first_name }}">
+                    </div>
+                </div>
+            {% if user_form.last_name.errors %}
+                <div class="form-group has-error">
+                    <div class="col-md-10 col-md-offset-2"
+                         style="margin-bottom: -15px;">
+                        <h4><span class="label label-danger">
+                        {{ user_form.last_name.errors.as_text }}
+                        </span></h4>
+                    </div>
+                </div>
+            {% endif %}
+                <div class="form-group">
+                    <label for="last_name" class="col-md-2
+                    control-label">Фамілія</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control"
+                               id="last_name" placeholder="ваша фамілія"
+                        name="last_name" value="{{ cur_user.last_name }}">
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="com-md-4 text-center">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Зберегти зміни
+                </button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#id_avatar_img').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#id_avatar").change(function(){
+        readURL(this);
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "app/layout.html" %}
+
+{% block headscripts %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <h1>Подання заявки на послугу</h1>
+    <hr/>
+{#    <form method="post" class="form-horizontal"#}
+{#          action="{% url 'add_app' %}" enctype="multipart/form-data">#}
+{#    {% csrf_token %}#}
+    {% if app_types %}
+    <div class="form-group">
+        <div class="col-md-12">
+            <h4><span class="label label-success">
+                Оберіть тип аплікації
+            </span></h4>
+        </div>
+        <div class="col-md-12 text-center">
+            <select class="form-control"
+                    id="select_app-type">
+                <option value="#tab">&nbsp;</option>
+                {% for app_type in app_types %}
+                <option value="{{ app_type.id }}"
+                {% if app_type.deprecated %}
+                     disabled="disabled"
+                {% endif %}>
+                    {{ app_type.name }}
+                {% if app_type.deprecated %}
+                     (застаріла форма)
+                {% endif %}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" id="tabs_app-type">
+                <li class="active">
+                    <a href="#tab">&nbsp;</a>
+                </li>
+                {% for app_type in app_types %}
+                    {% if not app_type.deprecated %}
+                <li><a href="#tab_{{ app_type.id }}">
+                    {{ app_type.get_short_instance_name }}</a>
+                </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active text-center" id="tab">
+                    <h1><span class="label label-warning">
+                        Оберіть тип звернення
+                    </span></h1>
+                </div>
+                {% for app_type in app_types %}
+                    {% if not app_type.deprecated %}
+                <div class="tab-pane" id="tab_{{ app_type.id }}">
+                    {% include 'app/app_general_form.html' %}
+                </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{#    </form>#}
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $('#select_app-type').select2();
+    </script>
+
+    <script type="text/javascript">
+    $('#select_app-type').on('change', function (e) {
+        $('#tabs_app-type li a').eq($(this).val()).tab('show');
+        if ($(this).val() != '#tab') {
+            $('#submit_btn').css('display', 'block');
+        }
+        else{
+            $('#submit_btn').css('display', 'none');
+        }
+    });
+
+    $('#tabs_app-type a').click(function (e) {
+        //show clicked tab
+        e.preventDefault();
+        $(this).tab('show');
+        //reverse change of select
+        select_val = $(this).attr('href').replace('#tab_', '');
+        $('#select_app-type').val(select_val).trigger("change");
+    })
+    </script>
+{% endblock %}

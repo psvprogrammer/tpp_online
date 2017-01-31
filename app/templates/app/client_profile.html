@@ -1,0 +1,185 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+    {% if errors %}
+<div class="jumbotron text-center">
+    <hr/>
+    {% for error in errors %}
+    <h1>{{ error }}</h1>
+    {% endfor %}
+    <hr/>
+</div>
+    {% else %}
+        <h1>{{ title }}</h1>
+    <hr/>
+    <form method="get" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-3 text-center">
+                <img src="{{ client.avatar.url }}" class="img-thumbnail"
+                     style="width:200px; height:200px;" id="id_avatar_img">
+            </div>
+            <div class="col-md-8 col-md-offset-1">
+                <div class="form-group">
+                    <label for="id_username" class="col-md-2
+                    control-label">Логін</label>
+                    <div class="col-md-5">
+                        <p class="form-control-static">
+                            {% if cur_user.username != '' %}
+                                {{ cur_user.username }}
+                            {% else %}
+                                ----
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="col-md-5">
+                        <h3><span class="label
+                        {% if client.balance < 0 %}
+                        label-danger
+                        {% elif client.balance == 0 %}
+                        label-warning
+                        {% else %}
+                        label-success
+                        {% endif %}
+                        ">Баланс: {{ client.balance }} грн.</span></h3>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_email" class="col-md-2
+                    control-label">Email</label>
+                    <div class="col-md-5">
+                        <p class="form-control-static">
+                            {% if cur_user.email != '' %}
+                                {{ cur_user.email }}
+                            {% else %}
+                                ----
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <h4><span class="label
+                label-default">Керівник</span></h4>
+                <div class="form-group">
+                    <label for="id_first_name" class="col-md-2
+                    control-label">Ім'я</label>
+                    <div class="col-md-5">
+                        <p class="form-control-static">
+                            {% if cur_user.first_name != '' %}
+                                {{ cur_user.first_name }}
+                            {% else %}
+                                ----
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="last_name" class="col-md-2
+                    control-label">Фамілія</label>
+                    <div class="col-md-5">
+                        <p class="form-control-static">
+                            {% if cur_user.last_name != '' %}
+                                {{ cur_user.last_name }}
+                            {% else %}
+                                ----
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <h4><span class="label label-default">Загальні дані</span></h4>
+            </div>
+            <div class="col-md-6">
+                <h4><span class="label label-default">Контакти</span></h4>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-md-2
+            control-label">* Назва</label>
+            <div class="col-md-4">
+                <p class="form-control-static">
+                    {% if client.name != '' %}
+                        {{ client.name }}
+                    {% else %}
+                        ----
+                    {% endif %}
+                </p>
+            </div>
+            <label for="address" class="col-md-2
+            control-label">Адреса</label>
+            <div class="col-md-4">
+                <p class="form-control-static">
+                    {% if client.address != '' %}
+                        {{ client.address }}
+                    {% else %}
+                        ----
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="full_name" class="col-md-2
+            control-label">Повна назва</label>
+            <div class="col-md-4">
+                <p class="form-control-static">
+                    {% if client.full_name != '' %}
+                        {{ client.full_name }}
+                    {% else %}
+                        ----
+                    {% endif %}
+                </p>
+            </div>
+            <label for="phone" class="col-md-2
+            control-label">Телефон</label>
+            <div class="col-md-4">
+                <p class="form-control-static">
+                    {% if client.phone != '' %}
+                        {{ client.phone }}
+                    {% else %}
+                        ----
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="code_ipn" class="col-md-2
+            control-label">Код ЄДРПОУ/ДРФО</label>
+            <div class="col-md-4">
+                <p class="form-control-static">
+                    {% if client.code_ipn != '' %}
+                        {{ client.code_ipn }}
+                    {% else %}
+                        ----
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <hr/>
+        <div class="form-group">
+            <div class="col-md-12">
+                <h4>
+                    <span class="label label-default">
+                        Загальна оцінка для РТПП
+                    </span>
+                </h4>
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <div class="col-md-12">
+                {% if client.overall_mark %}
+                    <img src="{{ client.overall_mark.picture }}"
+                         class="img-circle"
+                         style="width:100px; height:100px;" id="id_avatar_img">
+                {% else %}
+                    <p class="form-control-static">Оцінки не поставлено</p>
+                {% endif %}
+            </div>
+        </div>
+        <hr/>
+    </form>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron text-center has-error">
+    <h1>&#9760</h1>
+    <hr/>
+    <h1>Вибачте,</h1>
+    <h2>сталася внутрішня помилка...</h2>
+    <hr/>
+{% if error %}
+    <h6>Опис помилки: {{ error }}</h6>
+{% endif %}
+</div>
+
+{% endblock %}

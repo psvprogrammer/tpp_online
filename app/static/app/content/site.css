@@ -1,0 +1,98 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,*/
+/*select,*/
+/*textarea {*/
+    /*max-width: 280px;*/
+/*}*/
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* CUSTOM DESIGN */
+.custom-brand-logo{
+    margin-top: -5px;
+    margin-left: -10px;
+}
+.custom-brand-logo img{
+    height: 30px;
+}
+.quick-search-div{
+    /*margin-top: 30px;*/
+}
+.quick-search-nav{
+    background-color: #beccff !important;
+    background-image: none !important;
+    border-color: #beccff !important;
+    /*margin-top: 50px;*/
+}
+input.quick-search{
+    width: 100%;
+}
+
+/* simple loader css START */
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	/*position: fixed;*/
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+/* simple loader css END */
+
+.empty_category{
+    display: none;
+}
+
+.app-form{
+    margin-top: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.resizable{
+    // Options: horizontal, vertical, both
+    resize: vertical;
+    // Safari fix
+    overflow: auto;
+    max-width: 100%;
+}
+
+.symbol{
+    font-size: 30px;
+}

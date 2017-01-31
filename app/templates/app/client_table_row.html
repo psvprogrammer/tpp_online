@@ -1,0 +1,27 @@
+<tr class="client_row" id="{{ client.id }}">
+    <td>
+        <a href="{% url 'client_profile' client.id %}">
+            {{ client.get_short_name }}
+        </a>
+    </td>
+    <td>{{ client.code_ipn }}</td>
+    <td>{{ client.get_short_phone }}</td>
+    <td><h5><span class="label
+                {% if client.balance < 0 %}
+                label-danger
+                {% elif client.balance == 0 %}
+                label-warning
+                {% else %}
+                label-success
+                {% endif %}
+                ">{{ client.balance }} грн.</span></h5></td>
+    <td class="hidden-sm hidden-xs">
+        {% if client.overall_mark %}
+        <img src="{{ client.overall_mark.picture }}"
+             class="img-circle"
+             style="width: 35px; height: 35px">
+        {% else %}
+        ---
+        {% endif %}
+    </td>
+</tr>

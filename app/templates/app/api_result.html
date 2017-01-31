@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+
+    <div class="jumbotron text-center">
+    {% if errors %}
+        <h1>Oops!</h1>
+        <h3>{{ message }}</h3>
+        <hr/>
+        {% for error in errors %}
+        <div class="has-error">
+            <p class="lead">{{ error }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <h1>OK!</h1>
+        <h3>{{ message }}</h3>
+        <hr/>
+        {% if logs %}
+            {% for log in logs %}
+            <div class="has-success">
+                <p class="lead">{{ log }}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+        <hr/>
+    </div>
+</head>
+<body>
+
+</body>
+</html>

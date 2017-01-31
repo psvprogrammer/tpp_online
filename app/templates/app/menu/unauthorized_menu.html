@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#navbar-collapse-1">
+                <span
+                    class="glyphicon glyphicon-th-list"
+                    style="color:white">
+                </span>
+            </button>
+            <a href="/" class="navbar-brand custom-brand-logo">
+                <img src="{% static 'app/content/tpp_brand_logo.png' %}">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li {% if 'addreview' in request.path %}class="active"{% endif %}>
+                    <a href="{% url 'add_review' %}">Залишити відгук</a>
+                </li>
+                <li {% if 'reviews' in request.path %}class="active"{% endif %}>
+                    <a href="{% url 'reviews' %}">Відгуки</a>
+                </li>
+                <li {% if 'contact' in request.path %}class="active"{% endif %}>
+                    <a href="{% url 'contact' %}">Контакти</a>
+                </li>
+                {% include 'app/loginpartial.html' %}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

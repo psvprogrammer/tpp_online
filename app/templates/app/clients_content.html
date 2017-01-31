@@ -1,0 +1,50 @@
+{% for category in categories %}
+<div {% if category.get_client_num == 0 %}class="empty_category"{% endif %}
+     id="id_category_{{ category.id }}">
+    <h3>{{ category.name }}</h3>
+    <hr/>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Назва</th>
+            <th>ЄДРПОУ</th>
+            <th>Телефон</th>
+            <th>Баланс</th>
+            <th class="hidden-sm hidden-xs">Оцінка</th>
+        </tr>
+        </thead>
+        <tbody id="category_{{ category.id }}">
+        {% for client in clients %}
+            {% if client.category == category %}
+                {% include 'app/client_table_row.html' %}
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<hr/>
+{% endfor %}
+
+{% if nocategory_clients %}
+<div id="id_category_null">
+    <h3>Без категорії</h3>
+    <hr/>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Назва</th>
+            <th>ЄДРПОУ</th>
+            <th>Телефон</th>
+            <th>Баланс</th>
+            <th class="hidden-sm hidden-xs">Оцінка</th>
+        </tr>
+        </thead>
+        <tbody id="category_none">
+        {% for client in nocategory_clients %}
+            {% include 'app/client_table_row.html' %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<hr/>
+{% endif %}

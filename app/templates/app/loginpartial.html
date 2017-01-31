@@ -1,0 +1,19 @@
+{% if user.is_authenticated %}
+<li class="dropdown
+    {% if 'profile' in request.path %} active
+    {% elif 'password_change' in request.path %} active
+    {% endif %}">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+       aria-haspopup="true" aria-expanded="false">Вітаємо, {{ user.username }}!
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a href="{% url 'profile' %}">Профіль</a></li>
+        <li><a href="{% url 'password_change' %}">Змінити пароль</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="{% url 'logout' %}">Вийти</a></li>
+    </ul>
+</li>
+{% else %}
+<li><a href="{% url 'login' %}">Увійти</a></li>
+{% endif %}
