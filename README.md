@@ -5,8 +5,19 @@ Application developed with azure cloud service.
 
 Link: http://tpp-online.azurewebsites.net/
 
-Superuser creds: login: psv	password: admin
-Client creds: login: azot	password: 1
+Superuser creds:
+
+login: psv
+
+password: admin
+
+
+Client creds:
+
+login: azot
+
+password: 1
+
 
 This project let all clients of the regional Chamber to order/manage/and have the history of all his orders.
 During the execution of the order - client has also a possibility to chat with a first-hand executant.
